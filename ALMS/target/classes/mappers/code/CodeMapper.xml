@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyware.lms.system.code.mapper.CodeMapper">
+
+	<select id="getMasterCodeList" resultType="com.anyware.lms.system.code.vo.codeMasterVO">
+		SELECT
+			MASTER_CODE
+			, MASTER_CODE_NM
+			, USE_YN
+			, MASTER_CODE_CONT
+			, REG_ID
+			, DATE_FORMAT(REG_DT, '%Y-%m-%d %T') AS REG_DT
+			, UPD_ID
+			, DATE_FORMAT(UPD_DT, '%Y-%m-%d %T') AS UPD_DT
+		FROM TBL_CODE_MASTER
+	</select>
+</mapper>

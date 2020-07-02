@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyware.lms.menu.M01.mapper.M01Mapper">
+
+	<!-- resultMap Setting -->
+	<resultMap type="com.anyware.lms.common.vo.MemberVO" id="MemberVO"></resultMap>
+	
+	
+	<!-- 로그인 체크 -->
+	<select id="checkLogin" parameterType="java.lang.String" resultMap="MemberVO">
+		SELECT
+			MEMBER_ID
+			, MEMBER_NM
+			, MEMBER_GENDER
+			, MEMBER_BIRTH
+			, MEMBER_PHONE
+			, MEMBER_GB
+			, MEMBER_USE_YN
+		FROM TBL_MEMBER
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_PWD = password(#{memberPwd})
+	</select>
+	
+	<!-- 아이디, 비밀번호 찾기 -->
+	<select id="findIdPwd" parameterType="java.lang.String" resultMap="MemberVO">
+		SELECT
+			MEMBER_ID
+		FROM TBL_MEMBER
+		WHERE MEMBER_NM = #{memberNm}	
+		AND MEMBER_PHONE = #{memberPhone}
+	</select>
+	
+	<!-- 임시 비밀번호 발급 -->
+	<update id="updateTmpPwd" parameterType="java.lang.String">
+		UPDATE 
+			TBL_MEMBER
+		SET
+			MEMBER_PWD = password(#{tmpPwd})
+			,UPD_DT = CURRENT_TIMESTAMP
+		WHERE MEMBER_ID = #{memberId}	
+	</update>
+</mapper>

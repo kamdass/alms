@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+/*template====================================*/
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden
+}
+
+.wrapper {
+	width: 100%;
+	height: 98%
+}
+
+/*layout====================================*/
+#header {
+	width: 100%;
+	height: 10%;
+	text-align: center;
+	border-bottom: 1px solid;
+}
+
+#left {
+	float: left;
+	width: 15%;
+	height: 90%;
+	border-right: 1px solid;
+	padding: 2% 0% 0% 1% /*상 우 하 좌*/
+}
+
+#body {
+	float: left;
+	width: 85%;
+	height: 90%;
+	padding: 2% 0% 0% 3% /*상 우 하 좌*/
+}
+
+/* margin================================= */
+.ml-10 {
+	margin-left: 10%;
+}
+
+.ml-20 {
+	margin-left: 20%;
+}
+
+/*height====================================*/
+.h-100 {
+	height: 100%;
+}
+
+.h-90 {
+	height: 90%;
+}
+
+.h-80 {
+	height: 80%;
+}
+
+/*width====================================*/
+.w-100 {
+	height: 100%;
+}
+
+.w-80 {
+	height: 80%;
+}
+
+.w-60 {
+	height: 60%;
+}
+.w-40 {
+	height: 40%;
+}
+
+.w-20 {
+	height: 20%;
+}
+
+/*text====================================*/
+.text-va-m {
+	vertical-align: middle;
+}

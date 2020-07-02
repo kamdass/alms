@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyware.homepage.test.mapper.TestMapper">
+
+	<select id="getSelectOne"
+		resultType="com.anyware.homepage.test.vo.TestVO">
+		SELECT
+		1 as col_name1
+		,2 as col_name2
+		,3 as col_name3
+		FROM DUAL
+	</select>
+</mapper>

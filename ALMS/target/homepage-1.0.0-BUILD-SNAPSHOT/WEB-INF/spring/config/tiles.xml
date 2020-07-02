@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<!-- 1. 기본적인 템플릿을 생성한다. header, body, footer를 가진 teamplate.jsp라는 기본 레이아웃을 
+		정의한다. 이 정의된 레이아웃의 name속성인 base를 상속하여 추가적으로 여러 tiles들을 만들수 있다. -->
+	<definition name="base" template="/WEB-INF/views/common/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/layout/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/common/layout/left.jsp" />
+		<put-attribute name="body" value="" />
+<!-- 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" /> -->
+	</definition>
+
+	<!-- 2. base를 상속받은것. 즉, body부분만 설정한 경로대로 갈아 끼우고, 나머지 header, footer는 base의 
+		형식대로 상속받아 오는 것이다. -->
+	<definition name="[home]*" extends="base">
+		<put-attribute name="body"
+			value="/WEB-INF/views/views/homepage/{1}.jsp" />
+	</definition>
+
+	<definition name="[home]*/*" extends="base">
+		<put-attribute name="body"
+			value="/WEB-INF/views/homepage/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="[home]*/*/*" extends="base">
+		<put-attribute name="body"
+			value="/WEB-INF/views/homepage/{1}/{2}/{3}.jsp" />
+	</definition>
+
+</tiles-definitions>
