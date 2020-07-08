@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="msg" %>
+
 
 <%--===============================================
     *Date 		: 2020. 6. 17.
@@ -25,47 +27,50 @@ $(function() {
 
 	<%--로그인 버튼 클릭 시--%>
 	$("#btnSubmit").click(function(){
+		
 		if(isValid("loginForm"))
-			{
-		        var param = $("#loginForm").serialize() ;
+		{
+	        var param = $("#loginForm").serialize() ;
 		 
-		        $.ajax({
-		            type : "post"
-		            , url : "/M01F001.do"
-		            , data : param
-		            , dataType : "json"
-		            , error: function(xhr, status, error)
+	        $.ajax({
+	            type : "post"
+	            , url : "/M01F001.do"
+	            , data : param
+	            , dataType : "json"
+	            , error: function(xhr, status, error)
+	            {
+					var msg = "<msg:message code='error.ajax.fail'/>";
+					console.log("ajax::error::status=["+status+"] error=["+error+"]"); 
+					cmAlert("error",msg);
+					
+	                return false;
+	            }
+	            , success : function(result)
+	            {
+		            if(result)
 		            {
-		                alert("데이터 처리중 에러가 발생되었습니다. 관리자에게 문의하시기 바랍니다.");
-		                return false;
+			            location.href = "/M020101.do";
 		            }
-		            , success : function(result)
+		            else
 		            {
-			            if(result)
-			            {
-				            location.href = "/M020101.do";
-			            }
-			            else
-			            {
-				            alert("아이디 또는 비밀번호를 다시 확인해 주시기 바랍니다.");
-				            return false;
-			            }
+			            return false;
 		            }
-		        });
-			}
-		});
+	            }
+	        });
+		}
+	});
 
 	<%--아이디 찾기 클릭 시--%>
 	$("#findId").click(function(){
 		$("#findFlag").val(1);
 		$("#frmSubmit").submit();
-		});
-	
+	});
+
 	<%--비밀번호 찾기 클릭 시--%>
 	$("#findPwd").click(function(){
 		$("#findFlag").val(2);
 		$("#frmSubmit").submit();
-		});
+	});
 });
 </script>
 <%--script::END============================================= --%>
@@ -73,7 +78,6 @@ $(function() {
 <form id="frmSubmit" method="post" action="/M010201.do">
 	<input type="hidden" id="findFlag" name="findFlag" value=""/>	<%--아이디찾기, 비밀번호 찾기 구분값 --%>
 </form>
-
 <div class="container">
 	<div class="row justify-content-center">
 		<div class="col-xl-10 col-lg-12 col-md-9">
@@ -93,13 +97,19 @@ $(function() {
 											<td class="text-right" style="vertical-align: middle;">
 												<label for="memberId">아이디</label>
 											</td>
-											<td><input type="email" class="form-control form-control-user" id="memberId" name ="memberId" placeholder="아이디를 입력해주세요"></td>
+											<td>
+												<input type="email" class="form-control form-control-user" id="memberId" name ="memberId" placeholder="example@gmail.com" >
+												<small  id="valid_memberId" class="text-center"></small>
+											</td>
 										</tr>
 										<tr>
 											<td class="text-right" style="vertical-align: middle;">
 												<label for="memberPwd">비밀번호</label>
 											</td>
-											<td><input type="password" class="form-control form-control-user" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력해주세요" onkeyup="fnEnter('btnSubmit')"></td>
+											<td>
+												<input type="password" class="form-control form-control-user" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력해주세요" onkeyup="fnEnter('btnSubmit')" required>
+												<small  id="valid_memberPwd" class="text-center"></small>
+											</td>
 										</tr>
 									</table>
 									<a href="javascript::" class="btn btn-primary btn-user btn-block" id="btnSubmit">로그인 </a>

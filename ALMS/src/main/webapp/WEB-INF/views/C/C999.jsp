@@ -38,3 +38,6 @@
 
 <%--common util--%>
 <script src="/resources/js/common.js"></script>
+
+<%--Sweet Alert--%>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="msg" %>
 
 <%--===============================================
     *Date : 2020. 6. 19.
@@ -26,7 +27,9 @@ $(function() {
 	            , dataType : "json"
 	            , error: function(xhr, status, error)
 	            {
-	                alert("데이터 처리중 에러가 발생되었습니다. 관리자에게 문의하시기 바랍니다.");
+					var msg = "<msg:message code='error.ajax.fail'/>";
+					console.log("ajax::error::status=["+status+"] error=["+error+"]"); 
+					cmAlert("error",msg);
 	                return false;
 	            }
 	            , success : function(result)
@@ -36,6 +39,9 @@ $(function() {
 					var title = ($("#flag").val() == 1)? "아이디 찾기 " : "비밀번호 찾기";
 
 					ModalShow(0,title, msg, ((mailResultFlag)? "/M010101.do" : ""));
+
+
+					cmAlert("info",msg);
 
 	            }
 	        });

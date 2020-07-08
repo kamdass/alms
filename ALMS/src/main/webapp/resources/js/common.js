@@ -1,4 +1,5 @@
 
+
 $(function() {
 	/**
 	 * 숫자와 -만 입력가능함
@@ -13,19 +14,7 @@ $(function() {
 			return false;
 		}
 	});
-	/**
-	 * 엔터키 누르면 submit
-	 * */
-//	$(document).on("keyup", "input[enterSubmit]", function(event) {
-//		var keyCode = window.event ? event.keyCode : event.which;
-//		
-//		if(keyCode == 13)
-//		{
-//			$("#"+$(this).parents("form").attr("id")).submit();
-//		}
-//		
-//	});
-});
+})
 
 
 /**
@@ -50,13 +39,13 @@ function isNull(input)
  * @Desc
  *  - form validation check
  */
-function isValid(form,excludeId)
+function isValid(formId,excludeId)
 {
 	var  cnt = 0;
 	
-	$("#"+form).find("input").each(function(){
+	$("#"+formId).find("input").each(function(){
 		var inputId = $(this).attr("id");		
-		var inputVal = $("#"+inputId).val();
+		var inputVal = $(this).val();
 		var labelNm = $("label[for='"+inputId+"']").text();
 		
 		if(inputId == excludeId)
@@ -66,10 +55,18 @@ function isValid(form,excludeId)
 		{
 			if(isNull(inputVal))
 			{
-				$("#"+inputId).val("");
-				//alert(labelNm+" 입력값이 없습니다.");
-				ModalShow(cnt,"입력 항목 검증 오류", labelNm+" 입력값이 없습니다.", "")
+				$(this).val("");
+				
+				$("#valid_"+inputId).text(labelNm+"을(를) 입력해주세요.");
+				$("#"+inputId).removeClass("is-valid");
+				$("#"+inputId).addClass("is-invalid");
+				
 				cnt ++;
+			}else
+			{
+				$("#valid_"+inputId).text("");
+				$("#"+inputId).removeClass("is-invalid");
+				$("#"+inputId).addClass("is-valid");
 			}
 		}
 	});
@@ -97,7 +94,6 @@ function fnCheckPhone(e)
 }
 
 
-
 /**
  * @param id : submit 실행하는 id
  * @returns
@@ -116,7 +112,6 @@ function fnEnter(id)
 }
 
 /**
- * @param idx : modal 창을 반복할때 사용
  * @param title : 제목
  * @param conts : 내용
  * @param confirmUrl : 확인버튼 클릭 시 이동할 url
@@ -125,7 +120,7 @@ function fnEnter(id)
  *  - modal 창 띄우기
  * 
  */
-function ModalShow (idx, title, conts, confirmUrl)
+function ModalShow (title, conts, confirmUrl)
 {
 	$("#modalTitle").text(title);
 	$("#modalConts").text(conts);
@@ -142,4 +137,17 @@ function ModalShow (idx, title, conts, confirmUrl)
 	$("#myModal").attr("id","myModal"+idx);
 	
 	$("#myModal"+idx).modal({backdrop: 'static', keyboard: false});
+}
+
+/**
+ * @param flag : error, info 등 
+ * @param msg : 내용
+ * @returns
+ * @Desc
+ *  - alert 띄우기
+ * 
+ */
+function cmAlert(flag, msg)
+{
+	swal(msg,"",flag,{ closeOnClickOutside: false});
 }
