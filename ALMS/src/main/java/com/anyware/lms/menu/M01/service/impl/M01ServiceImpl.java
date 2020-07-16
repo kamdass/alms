@@ -112,7 +112,8 @@ public class M01ServiceImpl implements M01Service
 			//flag == 1 : 아이디찾기
 			if(vo.getFlag() == 1) 
 			{
-				msg = resultVo.getMemberId();
+				msg = vo.getMemberNm() + "님의 아이디는 ["+resultVo.getMemberId()+"] 입니다.\n 로그인 화면으로 이동하시겠습니까?";
+				
 			}else		//flag ==2 : 비밀번호 찾기 
 			{
 				//select한 memberId 와 화면에서 입력한 아이디가 같을 경우
@@ -123,6 +124,7 @@ public class M01ServiceImpl implements M01Service
 
 					//메일 전송
 					result = CommonUtils.sendMail(commonMail,resultVo);
+					logger.info("result=["+result+"]");
 					
 					//메일 전송 결과값이 null 일경우 flase 아닐경우 true
 					if(CommonUtils.isEmpty(result)) 
@@ -131,7 +133,8 @@ public class M01ServiceImpl implements M01Service
 					}else 
 					{
 						//발급한 임시 비밀번호를 DB에 update
-						vo.setMemberPwd(result);						
+						vo.setMemberPwd(result);					
+						logger.info(vo+"");
 						mapper.updateTmpPwd(vo);
 						
 						mailResultFlag = true;

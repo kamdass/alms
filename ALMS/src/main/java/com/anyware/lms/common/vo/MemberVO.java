@@ -6,7 +6,8 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = "memberPwd") //비밀번호는 제외
+@ToString() 
+//@ToString(exclude = "memberPwd") //비밀번호는 제외
 public class MemberVO 
 {
 	private String memberId;

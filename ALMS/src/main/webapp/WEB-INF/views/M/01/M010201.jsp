@@ -15,8 +15,9 @@ $(function() {
 	
 	<%--찾기 버튼 클릭--%>
 	$("#btnSubmit").click(function(){
-		var id = "${flag}"
-		if(isValid("frmSubmit","memberId"))
+
+		var flag = "${flag}";
+		if(isValid("frmSubmit",(flag == "1"? "memberId" : "")))
 		{
 	        var param = $("#frmSubmit").serialize() ;
 	 
@@ -25,6 +26,14 @@ $(function() {
 	            , url : "/M01F002.do"
 	            , data : param
 	            , dataType : "json"
+	            ,beforeSend:function()
+	            {
+		            $('.wrap-loading').removeClass('display-none');
+	             }
+	            ,complete:function()
+	            {	
+		            $('.wrap-loading').addClass('display-none');
+	             }
 	            , error: function(xhr, status, error)
 	            {
 					var msg = "<msg:message code='error.ajax.fail'/>";
@@ -37,11 +46,9 @@ $(function() {
 					var mailResultFlag = result.mailResultFlag;
 					var msg = result.msg;
 					var title = ($("#flag").val() == 1)? "아이디 찾기 " : "비밀번호 찾기";
-
-					ModalShow(0,title, msg, ((mailResultFlag)? "/M010101.do" : ""));
-
-
-					cmAlert("info",msg);
+					var msgParam = ($("#flag").val() == 1)? "비밀번호 찾기 " : "아이디 찾기";
+					
+					confirm(title,msg+"<msg:message code='confirm.move' arguments='로그인'/>","/M010101.do");
 
 	            }
 	        });
@@ -52,9 +59,19 @@ $(function() {
 	$("#goLogin").click(function(){
 		$(this).attr("href","/M010101.do");
 		});
+
+	<%--비밀번호 찾기 클릭 시--%>
+	$("#findPwd").click(function(){
+		$("#findFlag").val(2);
+		$("#frmSubmit").attr("action","/M010201.do");
+		$("#frmSubmit").submit();
+	});
 });
 </script>
 <%--script::END============================================= --%>
+<div class="wrap-loading display-none">
+    <div><img src="/resources/images/loading.gif" /></div>
+</div>
 
 <div class="container">
 	<div class="row justify-content-center">
@@ -75,6 +92,7 @@ $(function() {
 									</h1>
 								</div>
 								<form class="user" id="frmSubmit" name="frmSubmit" method="post" action="/M01F002.do">
+									<input type="hidden" id="findFlag" name="findFlag" value=""/>	<%--아이디찾기, 비밀번호 찾기 구분값 --%>
 									<input type="hidden" name="flag" id="flag" value="${flag}">	<%--아이디 찾기인지, 비밀번호찾기인지 구분값 --%>
 									<table class="table table-borderless">
 										
@@ -83,7 +101,8 @@ $(function() {
 												<label for="memberNm">이름</label>
 											</td>
 											<td>
-												<input type="text" class="form-control form-control-user" id="memberNm" name="memberNm" >
+												<input type="text" class="form-control form-control-user" id="memberNm" name="memberNm"  placeholder="홍길동">
+												<small  id="valid_memberNm" class="text-center"></small>
 											</td>
 										</tr>
 										
@@ -92,7 +111,8 @@ $(function() {
 												<label for="memberPhone">핸드폰번호</label>
 											</td>
 											<td>
-												<input type="text" class="form-control form-control-user" id="memberPhone" name="memberPhone" maxlength="13" phoneOnly onkeyup="fnEnter('btnSubmit')">
+												<input type="text" class="form-control form-control-user" id="memberPhone" name="memberPhone" maxlength="13" phoneOnly onkeyup="fnEnter('btnSubmit')" placeholder="010-0000-0000">
+												<small  id="valid_memberPhone" class="text-center"></small>
 											</td>
 										</tr>
 										
@@ -102,7 +122,8 @@ $(function() {
 													<label for="memberId">아이디</label>
 												</td>
 												<td>
-													<input type="text" class="form-control form-control-user" id="memberId" name="memberId" onkeyup="fnEnter('btnSubmit')">
+													<input type="text" class="form-control form-control-user" id="memberId" name="memberId" onkeyup="fnEnter('btnSubmit')" placeholder="example@gmail.com">
+													<small  id="valid_memberId" class="text-center"></small>
 												</td>
 											</tr>
 										</c:if>
@@ -111,7 +132,10 @@ $(function() {
 								</form>
 								<hr>
 								<div class="text-center">
-									<a class="small" href="javascript::" id="goLogin">로그인 화면으로 이동</a>
+									<a class="small <c:if test='${flag eq 1 }'>mr-5</c:if>" href="javascript::" id="goLogin">로그인 화면으로 이동</a>
+									<c:if test="${flag eq 1 }">
+										<a class="small" href="javascript::" id="findPwd">비밀번호 찾기</a>
+									</c:if>
 								</div>
 							</div>
 						</div>

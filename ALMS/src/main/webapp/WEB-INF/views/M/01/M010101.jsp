@@ -17,20 +17,14 @@
 <%--script::START============================================ --%>
 <script type="text/javascript">
 $(function() {
-	var msg = "${result}";
-
-	if(msg !="")
-	{
-		alert(msg);
-		return false;
-	}
+	var msg = "";
 
 	<%--로그인 버튼 클릭 시--%>
 	$("#btnSubmit").click(function(){
 		
-		if(isValid("loginForm"))
+		if(isValid("loginForm",""))
 		{
-	        var param = $("#loginForm").serialize() ;
+	        var param = $("#loginForm").serialize();
 		 
 	        $.ajax({
 	            type : "post"
@@ -39,7 +33,7 @@ $(function() {
 	            , dataType : "json"
 	            , error: function(xhr, status, error)
 	            {
-					var msg = "<msg:message code='error.ajax.fail'/>";
+					msg = "<msg:message code='error.ajax.fail'/>";
 					console.log("ajax::error::status=["+status+"] error=["+error+"]"); 
 					cmAlert("error",msg);
 					
@@ -53,6 +47,7 @@ $(function() {
 		            }
 		            else
 		            {
+		            	cmAlert("info","안내","<msg:message code='login.fail'/>");
 			            return false;
 		            }
 	            }

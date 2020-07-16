@@ -35,7 +35,7 @@
 		UPDATE 
 			TBL_MEMBER
 		SET
-			MEMBER_PWD = password(#{tmpPwd})
+			MEMBER_PWD = password(#{memberPwd})
 			,UPD_DT = CURRENT_TIMESTAMP
 		WHERE MEMBER_ID = #{memberId}	
 	</update>

@@ -43,15 +43,12 @@ function isValid(formId,excludeId)
 {
 	var  cnt = 0;
 	
-	$("#"+formId).find("input").each(function(){
+	$("#"+formId).find("input[type!='hidden']").each(function(){
 		var inputId = $(this).attr("id");		
 		var inputVal = $(this).val();
 		var labelNm = $("label[for='"+inputId+"']").text();
 		
-		if(inputId == excludeId)
-		{
-			cnt = 0;
-		}else
+		if(inputId != excludeId)
 		{
 			if(isNull(inputVal))
 			{
@@ -67,6 +64,7 @@ function isValid(formId,excludeId)
 				$("#valid_"+inputId).text("");
 				$("#"+inputId).removeClass("is-invalid");
 				$("#"+inputId).addClass("is-valid");
+				
 			}
 		}
 	});
@@ -147,7 +145,41 @@ function ModalShow (title, conts, confirmUrl)
  *  - alert 띄우기
  * 
  */
-function cmAlert(flag, msg)
+function cmAlert(flag, title, msg)
 {
-	swal(msg,"",flag,{ closeOnClickOutside: false});
+	swal(title,msg,flag,{ closeOnClickOutside: false});
 }
+
+	var alert = function(title,msg) {
+		swal({
+			title : title
+			,text : msg
+			,icon : "info"
+			,customClass : 'sweet-size'
+			,showConfirmButton : false
+			,closeOnClickOutside: false
+		});
+	}
+
+	var confirm = function(title,msg,url) {
+		swal({
+			title : title
+			,text : msg
+			,icon : "success"
+			//,buttons: true
+			,buttons: 
+			{
+				true : "예"
+				,cancel : "아니오"
+			}
+			,closeOnClickOutside: false
+			})
+			 .then((isConfirm)=> {
+				if(isConfirm)
+				{
+					location.href = url;
+				}
+				
+			
+		});
+	}
